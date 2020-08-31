@@ -46,6 +46,6 @@ list person {
 ```
 We create a object named Person, within that Person Object, we set variables within the object.
 
-Variables being, a string, age , and a function.
+Variables being, a string, int , and a function.
 
-the @ key is used to tell the parser, that the object is a void type. 
+( the @ key is used to tell the parser, that the object is a function. )
