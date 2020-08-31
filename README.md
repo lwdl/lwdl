@@ -31,8 +31,10 @@ JDATA was completed, but due to some issues. I decided to write JDATA as a C fil
   - characters
   
   - functions
-
-
+  
+  - floats
+  
+ 
 ### LWDL code.
 ```
 list person {
