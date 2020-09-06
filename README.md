@@ -15,8 +15,7 @@ LWDL is a data language written in C, and a verison within C++
 LWDL, was created to allow people to not re-compile the application if they would've changed a variable.
 
 ### Orgin:
-LWDL was orginally called JDATA. JDATA has been written but it exists as a C++ program, JDATA will be used for the C++ portion of lwdl, so syntax may differ.
- 
+LWDL was orginally called JDATA. JDATA has been written but it exists as a C++ program, and JDATA was slow. 
 
 ### What can it support? 
   LWDL can support:
