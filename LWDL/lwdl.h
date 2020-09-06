@@ -1,6 +1,4 @@
-/*
-LWDL_Development Portal
-*/
+ 
 /*
 
 MIT License 
