@@ -32,7 +32,7 @@ LWDL was orginally called JDATA. JDATA has been written but it exists as a C++ p
   
  
 ### LWDL code.
-```json
+```java
 list UI
 {
   Label : Color
