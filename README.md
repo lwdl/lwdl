@@ -26,11 +26,9 @@ JDATA was completed, but due to some issues. I decided to write JDATA as a C fil
   
   - doubles
   
-  - strings
+  - words
   
   - characters
-  
-  - functions
   
   - floats
   
@@ -40,12 +38,9 @@ JDATA was completed, but due to some issues. I decided to write JDATA as a C fil
 list person {
   Name : Jake
   Age : 14
-  Animation : @playingBasketBall
-
 }
 ```
 We create a object named Person, within that Person Object, we set variables within the object.
 
-Variables being, a string, int , and a function.
+Variables being, a string, and a int.
 
-( the @ key is used to tell the parser, that the object is a function. )
