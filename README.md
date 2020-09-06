@@ -40,5 +40,5 @@ list person {
 ```
 We create a object named Person, within that Person Object, we set variables within the object.
 
-Variables being, a string, and a int.
+Variables being, a words, and a int.
 
