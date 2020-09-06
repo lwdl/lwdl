@@ -26,23 +26,23 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
     LWDL_string contents; // this is defined to remove the bug that deletes the first line of the code.
     LWDL_string chunks; // chunks are used to parse the tokens.
     LWDL_Array tokens; // this array will be used to store the tokens within the file.
-    const char remove[4] = "	 \n"; 
-    LWDL_TOOL_INIT_LIST_ARRAY(&data->list_array , 5);
-    LWDL_TOOL_INIT_ARRAY(&tokens, 1);	// 5  is starting size. 
+     LWDL_TOOL_INIT_LIST_ARRAY(&data->list_array , 5);
     LWDL_TOOL_INIT_LIST_ARRAY(&data->list_array,5);
+    LWDL_TOOL_INIT_ARRAY(&tokens, 5);	// 5  is starting size. 
 
     while ((ch = fgetc(state.LWDL_File)) != EOF)
     {
         contents = LWDL_TOOL_AppendCharacters(contents, ch); // Visit LWDLTOOL (name explains it)
     }
 
-    chunks = strtok(contents, remove); // token
+    chunks = strtok(contents, "	 \n"); // token
     while (chunks != NULL)
     {
-       
-            LWDL_TOOL_INSERT_ARRAY(&tokens, chunks); // we insert a array from chunks
+       if (chunks != NULL){
+        LWDL_TOOL_INSERT_ARRAY(&tokens, chunks); // we insert a array from chunks
+       }
+        chunks = strtok(NULL, "	 \n");
          
-        chunks = strtok(NULL, remove);
 
     }
 
@@ -108,9 +108,9 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
 
 
         data->lwdl_data_size = read_list_scope_pos  ;
-     
-        LWDL_TOOL_FREE_ARRAY(&tokens); // free the token array.
-
+      LWDL_TOOL_FREE_ARRAY(&tokens); // free the token array.
+     fclose(state.LWDL_File);
+         
 }
 
 
@@ -159,7 +159,6 @@ void LWDL_PrintData(LWDL_Data data){
 
 void LWDL_Close(LWDL_Data* data , LWDL_State state)
 {
-    fclose(state.LWDL_File); // closes the state of the file opening 
     LWDL_TOOL_FREE_LIST_ARRAY(&data->list_array);    
 
 }
