@@ -32,11 +32,26 @@ LWDL was orginally called JDATA. JDATA has been written but it exists as a C++ p
   
  
 ### LWDL code.
-```
-list person {
-  Name : Jake
-  Age : 14
+```js
+list UI
+{
+  Label : Color
+  ColorPallet : 1
+  DebugProfile : 1
+  view_type : VIEW_TYPE_SMOOTH
 }
+
+list Player
+{
+
+  a_dash : 1
+  a_combos : 1
+  a_dead_when_key_pressed : 0
+  debugging_mode : 1
+  
+
+}
+
 ```
 We create a object named Person, within that Person Object, we set variables within the object.
 
