@@ -9,7 +9,7 @@ namespace LWDL {
         LWDL_SUCCESS = 2
     };
 
-    struct LWDL_lists {
+    struct lists {
         std::string list_name;
         std::vector<std::string> list_value_name;
         std::vector<std::string> list_value;
@@ -17,11 +17,11 @@ namespace LWDL {
     class Parser {
 
         public:
-        Parser(std::string str);
+        Parser(const std::string& str);
         Parser() {};
 
         public:
-        void openFile(std::string str);
+        void openFile(const std::string& str);
         void close();
         void parse(); // tokenizes it and then afterwards stores the results
         public:
@@ -29,16 +29,16 @@ namespace LWDL {
 
         const status getStatus();
         
-        std::string getString(std::string list_name , std::string value_name);
-        int getInt           (std::string list_name , std::string value_name );
-        double getDouble     (std::string list_name , std::string value_name );
-        float getFloat       (std::string list_name , std::string value_name );
+        std::string getString(const std::string& list_name , const std::string& value_name);
+        int getInt           (const std::string& list_name , const std::string& value_name );
+        double getDouble     (const std::string& list_name , const std::string& value_name );
+        float getFloat       (const std::string& list_name , const std::string& value_name );
 
     
         private:
         
-        std::vector<LWDL::LWDL_lists> list;
-        std::ifstream LWDL_Parser;
+        std::vector<LWDL::lists> list;
+        std::ifstream file;
         status _status;
 
     };

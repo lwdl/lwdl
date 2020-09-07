@@ -1,23 +1,22 @@
 #include "lwdl_parser.hpp"
 
 
-LWDL::Parser::Parser(std::string str){
+LWDL::Parser::Parser(const std::string& str){
     openFile(str);
 }
 
 
-void LWDL::Parser::openFile(std::string str){
-     LWDL_Parser.open(str);
-    if (LWDL_Parser.fail()){
+void LWDL::Parser::openFile(const std::string&  str){
+     file.open(str);
+    if (file.fail()){
         this->_status = LWDL::status::LWDL_FAILURE;
-        exit(-1);
     }else{
         this->_status = LWDL::status::LWDL_SUCCESS;
     }
 }
 
 void LWDL::Parser::close(){
-    LWDL_Parser.close();
+    file.close();
 }
 
 
@@ -30,25 +29,26 @@ void LWDL::Parser::parse(){
     std::vector<std::string> tokens;
     std::string str_temp;
      do {
-        LWDL_Parser >> str_temp;  
+        file >> str_temp;  
         tokens.push_back(str_temp);
     }
-    while (!this->LWDL_Parser.eof());
+    while (!this->file.eof());
 
-    LWDL_lists lwdl_l;
+    lists lwdl_l;
+    bool inScope = false;
     for (int i=0;i<tokens.size();i++){
         if (tokens[i] == "list"){
 
             if (tokens[i + 1] == "{"){
                 std::cout << "[ERR]: Cannot name a list a {\n";
                 this->_status = LWDL::status::LWDL_FAILURE;
-                exit(-1);
+ 
             }
 
             else if (tokens[i + 1] == "}"){
                 std::cout << "[ERR]: Cannot name a list a }\n";
                 this->_status = LWDL::status::LWDL_FAILURE;
-                exit(-1);
+      
 
             }
             else {
@@ -56,30 +56,33 @@ void LWDL::Parser::parse(){
             }
 
         }
+        else if (tokens[i] == "{"){
 
-        if (tokens[i] == ":"){
+            inScope = true;
+        }
+       else if (tokens[i] == ":" && inScope){
             lwdl_l.list_value.push_back(tokens[i+1]);
             lwdl_l.list_value_name.push_back(tokens[i-1]);
         }
 
-        if (tokens[i] == "}"){
+       else if (tokens[i] == "}" and inScope){
                 this->list.push_back(lwdl_l);
                 /* time to clean up */
                 lwdl_l.list_name  = "";
                 lwdl_l.list_value.clear();
                 lwdl_l.list_value_name.clear();
+                inScope = false;
         }
     }
 
 
-    tokens.clear();
     
 
 
 } 
 
 
-std::string LWDL::Parser::getString(std::string list_name , std::string value_name)
+std::string LWDL::Parser::getString(const std::string&  list_name , const std::string&  value_name)
 {
     std::string ret = "-1";
     for (int i=0;i<list.size();i++){
@@ -95,18 +98,18 @@ std::string LWDL::Parser::getString(std::string list_name , std::string value_na
     return ret;
 }
 
-int LWDL::Parser::getInt(std::string list_name , std::string value_name)
+int LWDL::Parser::getInt(const std::string&  list_name , const std::string&  value_name)
 {
 return std::stoi(getString(list_name, value_name));
 }
 
-double LWDL::Parser::getDouble(std::string list_name , std::string value_name)
+double LWDL::Parser::getDouble(const std::string&  list_name , const std::string&  value_name)
 {
     return std::stod(getString(list_name, value_name));
 
 }
 
-float LWDL::Parser::getFloat(std::string list_name , std::string value_name)
+float LWDL::Parser::getFloat(const std::string& list_name , const std::string&  value_name)
 {
     return std::stof(getString(list_name, value_name));
 
