@@ -71,7 +71,7 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
         	
             } else{
 
-                 read_list_scope_pos = read_list_scope_pos  ;
+                 read_list_scope_pos = read_list_scope_pos + 1 ;
                 LWDL_TOOL_INIT_ARRAY(&data->list_array.array[read_list_scope_pos  ].list_values,5);
                 data->list_array.array[read_list_scope_pos ].list_name = tokens.array[i + 1];
                 LWDL_TOOL_INIT_ARRAY(&data->list_array.array[read_list_scope_pos  ].list_values_name,5);
