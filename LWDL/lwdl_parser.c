@@ -35,48 +35,53 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
         contents = LWDL_TOOL_AppendCharacters(contents, ch); // Visit LWDLTOOL (name explains it)
     }
 
-    chunks = strtok(contents, "	 \n"); // token
-    while (chunks != NULL)
+    chunks = strtok(contents, "\t \n"); // token
+     while (chunks != NULL)
     {
-       if (chunks != NULL){
+        
+       
+       
         LWDL_TOOL_INSERT_ARRAY(&tokens, chunks); // we insert a array from chunks
-       }
-        chunks = strtok(NULL, "	 \n");
-         
+   
+        
+        chunks = strtok(NULL, "\t \n");
 
     }
 
-
+    for (int i=0;i<tokens.used;i++){
+        printf("%s\n", tokens.array[i]);
+    }
     /* Parser, this uses the tokenized values,
     and stores them into the data arguments.
     afterwards, the user can fetch the data, converted , changed
     This parser also is a error.  */ 
-    int ret = 0; // this is a int that is used for comparing ints using strcmp.
-    LWDL_bool inScope = LWDL_false;
+ 
+     LWDL_bool inScope = LWDL_false;
     int read_list_scope_pos =0 ;
      
     for (int i = 0; i < tokens.used; i++)
     {
-        if ((ret = strcmp(tokens.array[i], "list")) == 0)
+        if ((strcmp(tokens.array[i], "list")) == 0)
         {
             
-            if ((ret = strcmp(tokens.array[i + 1], "{")) == 0){
+            if ((  strcmp(tokens.array[i + 1], "{")) == 0){
         		printf("[ERROR]::(%s) list cannot have a name of a {.  \n", state.file_name );
-        		exit(-1); // exits if there is a issue.
-        	} else if ((ret = strcmp(tokens.array[i + 1], "}")) == 0){
+                state.status = LWDL_FAILURE;
+        	} else if (( strcmp(tokens.array[i + 1], "}")) == 0){
         		printf("[ERROR]::(%s) list cannot have a name of a }.  \n", state.file_name );
-        		exit(-1); // exits if there is a issue.
-        	} else{
+                state.status = LWDL_FAILURE;
+        	
+            } else{
 
-                 read_list_scope_pos = read_list_scope_pos + 1;
-                LWDL_TOOL_INIT_ARRAY(&data->list_array.array[read_list_scope_pos - 1].list_values,5);
-                data->list_array.array[read_list_scope_pos - 1].list_name = tokens.array[i + 1];
-                LWDL_TOOL_INIT_ARRAY(&data->list_array.array[read_list_scope_pos - 1].list_values_name,5);
+                 read_list_scope_pos = read_list_scope_pos  ;
+                LWDL_TOOL_INIT_ARRAY(&data->list_array.array[read_list_scope_pos  ].list_values,5);
+                data->list_array.array[read_list_scope_pos ].list_name = tokens.array[i + 1];
+                LWDL_TOOL_INIT_ARRAY(&data->list_array.array[read_list_scope_pos  ].list_values_name,5);
 
         	} 
         		
         }
-        if ((ret = strcmp(tokens.array[i], "{")) == 0)
+        if ((  strcmp(tokens.array[i], "{")) == 0)
         {
         	inScope = LWDL_true;
          
@@ -84,20 +89,25 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
 
         }
 
-           if ((ret = strcmp(tokens.array[i], ":")) == 0 && inScope)
+           if ((  strcmp(tokens.array[i], ":")) == 0 && inScope)
            {
-
-                LWDL_TOOL_INSERT_ARRAY(&data->list_array.array[read_list_scope_pos - 1].list_values      , tokens.array[i + 1]);
-                LWDL_TOOL_INSERT_ARRAY(&data->list_array.array[read_list_scope_pos - 1].list_values_name , tokens.array[i - 1]);
+                if (tokens.array[i + 1] != NULL || tokens.array[i - 1] != NULL){
+                 
+                LWDL_TOOL_INSERT_ARRAY(&data->list_array.array[read_list_scope_pos  ].list_values      , tokens.array[i + 1]);
+                LWDL_TOOL_INSERT_ARRAY(&data->list_array.array[read_list_scope_pos  ].list_values_name , tokens.array[i - 1]);
+                } else {
+                    printf("[ERROR] There is no value_name or value\n");
+                    state.status = LWDL_FAILURE;
+                }
 
            }
 
 
 
 
-        else if ((ret = strcmp(tokens.array[i], "}")) == 0 && inScope == LWDL_true)
+        else if ((  strcmp(tokens.array[i], "}")) == 0 && inScope == LWDL_true)
         {
-            LWDL_TOOL_INSERT_LIST_ARRAY(&data->list_array , data->list_array.array[read_list_scope_pos - 1]);
+            LWDL_TOOL_INSERT_LIST_ARRAY(&data->list_array , data->list_array.array[read_list_scope_pos  ]);
         	inScope = LWDL_false;
             
         }
@@ -107,7 +117,7 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
     }
 
 
-        data->lwdl_data_size = read_list_scope_pos  ;
+    data->lwdl_data_size = read_list_scope_pos  ;
       LWDL_TOOL_FREE_ARRAY(&tokens); // free the token array.
      fclose(state.LWDL_File);
          
@@ -115,13 +125,13 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
 
 
 LWDL_string LWDL_getString(LWDL_Data data,LWDL_string list_name , LWDL_string value_name ){
-  int ret = 0, o = 0 , b = 0;
+   int o = 0 , b = 0;
   char* rett = "-1";
  for (o=0;o<data.lwdl_data_size  ;o++){
-        if ((ret = strcmp(data.list_array.array[o].list_name,list_name)) == 0){
+        if (( strcmp(data.list_array.array[o].list_name,list_name)) == 0){
             
             for (b =0;b<data.list_array.array[o].list_values_name.used;b++){
-                    if ((ret = strcmp(data.list_array.array[o].list_values_name.array[b],value_name)) == 0){
+                    if ((  strcmp(data.list_array.array[o].list_values_name.array[b],value_name)) == 0){
                         rett =  data.list_array.array[o].list_values.array[b];
                     }
             }
@@ -157,7 +167,7 @@ void LWDL_PrintData(LWDL_Data data){
     }
 }
 
-void LWDL_Close(LWDL_Data* data , LWDL_State state)
+void LWDL_Close(LWDL_Data* data  )
 {
     LWDL_TOOL_FREE_LIST_ARRAY(&data->list_array);    
 

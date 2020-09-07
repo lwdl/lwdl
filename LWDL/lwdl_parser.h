@@ -69,7 +69,7 @@ LWDL_CLOSE(state):
 frees up or closes any pointed in state.
 
 */
-void LWDL_Close(LWDL_Data* data ,  LWDL_State state);
+void LWDL_Close(LWDL_Data* data );
  
 
  // Return Types Lwdl
