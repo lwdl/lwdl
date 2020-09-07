@@ -75,8 +75,7 @@ void LWDL_Close(LWDL_Data* data );
  // Return Types Lwdl
 LWDL_string LWDL_getString(LWDL_Data data,LWDL_string list_name , LWDL_string value_name );
 int LWDL_getInt           (LWDL_Data data,LWDL_string list_name , LWDL_string value_name );
-double LWDL_getDouble     (LWDL_Data data,LWDL_string list_name , LWDL_string value_name );
-float LWDL_getFloat       (LWDL_Data data,LWDL_string list_name , LWDL_string value_name );
+ float LWDL_getFloat       (LWDL_Data data,LWDL_string list_name , LWDL_string value_name );
 
 
 /*

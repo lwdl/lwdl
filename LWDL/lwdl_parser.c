@@ -148,11 +148,9 @@ int LWDL_getInt(LWDL_Data data,LWDL_string list_name , LWDL_string value_name ){
 return atoi(LWDL_getString(data,list_name,value_name));
 }
 
-double LWDL_getDouble(LWDL_Data data,LWDL_string list_name , LWDL_string value_name ){
-return (double)LWDL_getInt(data,list_name,value_name);
-}
+ 
 float LWDL_getFloat(LWDL_Data data,LWDL_string list_name , LWDL_string value_name){
-return (float)LWDL_getInt(data,list_name,value_name);
+return atof(LWDL_getString(data,list_name,value_name));
 }
 
 void LWDL_PrintData(LWDL_Data data){
