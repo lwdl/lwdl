@@ -48,9 +48,7 @@ void LWDL_Parse(LWDL_Data* data, LWDL_State state)
 
     }
 
-    for (int i=0;i<tokens.used;i++){
-        printf("%s\n", tokens.array[i]);
-    }
+
     /* Parser, this uses the tokenized values,
     and stores them into the data arguments.
     afterwards, the user can fetch the data, converted , changed
